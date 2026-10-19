@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: KlikDB issues
+    url: https://github.com/ashafizullah/klikdb/issues/new/choose
+    about: Bugs and ideas for the database manager
+  - name: KlikSnap issues
+    url: https://github.com/ashafizullah/kliksnap/issues/new/choose
+    about: Bugs and ideas for the screenshot and recording tool
+  - name: KlikReel issues
+    url: https://github.com/ashafizullah/klikreel/issues/new/choose
+    about: Bugs and ideas for the promo video maker
+  - name: KlikDesign issues
+    url: https://github.com/ashafizullah/klikdesign/issues/new/choose
+    about: Bugs and ideas for the poster editor
+  - name: Report a security vulnerability
+    url: https://github.com/ashafizullah/klikapps/security/advisories/new
+    about: Please report security problems privately, not in a public issue.

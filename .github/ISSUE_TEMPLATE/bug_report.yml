@@ -1,0 +1,23 @@
+name: Website problem
+description: Something on klikapps.pages.dev is broken or wrong
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository is only the Klik Apps landing page. For a problem in an app, open an issue in its own repository: [KlikDB](https://github.com/ashafizullah/klikdb/issues/new/choose), [KlikSnap](https://github.com/ashafizullah/kliksnap/issues/new/choose), [KlikReel](https://github.com/ashafizullah/klikreel/issues/new/choose) or [KlikDesign](https://github.com/ashafizullah/klikdesign/issues/new/choose).
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong?
+      description: What you expected, and what you see instead. A screenshot helps.
+      placeholder: The KlikSnap download button links to an old version.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      placeholder: Safari on iPhone 15 / Chrome 140 on Windows 11
+    validations:
+      required: true
