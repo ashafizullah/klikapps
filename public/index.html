@@ -3,12 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Klik Apps</title>
-<meta name="description" content="Free, open-source desktop apps for macOS, Windows and Linux: KlikDB, KlikSnap, KlikReel and KlikDesign.">
-<meta property="og:title" content="Klik Apps">
-<meta property="og:description" content="Free, open-source desktop apps for macOS, Windows and Linux.">
+<title>Klik Apps: free, open-source desktop apps for Mac, Windows and Linux</title>
+<meta name="description" content="Free, open-source desktop apps for macOS, Windows and Linux: KlikDB database manager, KlikSnap screenshots, KlikReel promo videos and KlikDesign posters.">
+<link rel="canonical" href="https://klikapps.pages.dev/">
+<meta name="author" content="Adam Suchi Hafizullah">
+<meta name="theme-color" content="#f6f5f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Klik Apps">
+<meta property="og:url" content="https://klikapps.pages.dev/">
+<meta property="og:title" content="Klik Apps: small desktop apps, one click away">
+<meta property="og:description" content="Free, open-source desktop apps for macOS, Windows and Linux: KlikDB, KlikSnap, KlikReel and KlikDesign.">
+<meta property="og:image" content="https://klikapps.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Klik Apps: small desktop apps, one click away. KlikDB, KlikSnap, KlikReel and KlikDesign.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Klik Apps: small desktop apps, one click away">
+<meta name="twitter:description" content="Free, open-source desktop apps for macOS, Windows and Linux.">
+<meta name="twitter:image" content="https://klikapps.pages.dev/og.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://klikapps.pages.dev/#website", "url": "https://klikapps.pages.dev/", "name": "Klik Apps", "description": "Free, open-source desktop apps for macOS, Windows and Linux: KlikDB database manager, KlikSnap screenshots, KlikReel promo videos and KlikDesign posters.", "inLanguage": "en", "publisher": {"@id": "https://klikapps.pages.dev/#author"}}, {"@type": "Person", "@id": "https://klikapps.pages.dev/#author", "name": "Adam Suchi Hafizullah", "url": "https://ashafizullah.com", "sameAs": ["https://github.com/ashafizullah"]}, {"@type": "ItemList", "name": "Klik Apps", "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "SoftwareApplication", "name": "KlikDB", "description": "A native database manager. PostgreSQL, MySQL, SQL Server, SQLite, Redis and MongoDB in one small app.", "applicationCategory": "DeveloperApplication", "operatingSystem": "macOS, Windows", "url": "https://github.com/ashafizullah/klikdb", "downloadUrl": "https://github.com/ashafizullah/klikdb/releases/latest", "image": "https://klikapps.pages.dev/icons/klikdb.png", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@id": "https://klikapps.pages.dev/#author"}}}, {"@type": "ListItem", "position": 2, "item": {"@type": "SoftwareApplication", "name": "KlikSnap", "description": "A lightweight screenshot and screen recording tool. Capture, annotate, OCR.", "applicationCategory": "MultimediaApplication", "operatingSystem": "macOS, Windows, Linux", "url": "https://github.com/ashafizullah/kliksnap", "downloadUrl": "https://github.com/ashafizullah/kliksnap/releases/latest", "image": "https://klikapps.pages.dev/icons/kliksnap.png", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@id": "https://klikapps.pages.dev/#author"}}}, {"@type": "ListItem", "position": 3, "item": {"@type": "SoftwareApplication", "name": "KlikReel", "description": "Turn a prompt and your codebase into a narrated product promo video.", "applicationCategory": "MultimediaApplication", "operatingSystem": "macOS, Windows, Linux", "url": "https://github.com/ashafizullah/klikreel", "downloadUrl": "https://github.com/ashafizullah/klikreel/releases/latest", "image": "https://klikapps.pages.dev/icons/klikreel.png", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@id": "https://klikapps.pages.dev/#author"}}}, {"@type": "ListItem", "position": 4, "item": {"@type": "SoftwareApplication", "name": "KlikDesign", "description": "A Canva-style poster editor with AI. Prompt a poster, then refine it on the canvas or by chat.", "applicationCategory": "DesignApplication", "operatingSystem": "macOS, Windows, Linux", "url": "https://github.com/ashafizullah/klikdesign", "downloadUrl": "https://github.com/ashafizullah/klikdesign/releases/latest", "image": "https://klikapps.pages.dev/icons/klikdesign.png", "license": "https://opensource.org/licenses/MIT", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@id": "https://klikapps.pages.dev/#author"}}}]}]}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -130,7 +148,60 @@
     </div>
   </section>
 
-  <main class="apps" id="apps"></main>
+  <main class="apps" id="apps" aria-label="Apps">
+    <article class="app" id="klikdb" style="--dot: #1f8a65" data-repo="klikdb" data-platforms="mac win">
+      <div class="app-head">
+        <img src="icons/klikdb.png" alt="KlikDB icon" width="64" height="64" loading="lazy">
+        <div><h2>KlikDB</h2><span class="version" data-version></span></div>
+      </div>
+      <p class="tagline">A native database manager. PostgreSQL, MySQL, SQL Server, SQLite, Redis and MongoDB in one small app.</p>
+      <ul><li>SSH tunnels, connection groups and Navicat import</li><li>Table browser with inline editing in one transaction</li><li>SQL editor with autocomplete, history and safety guards</li></ul>
+      <div class="actions">
+        <a class="btn primary" data-download href="https://github.com/ashafizullah/klikdb/releases/latest">Download KlikDB</a>
+        <a class="btn" href="https://github.com/ashafizullah/klikdb" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <div class="platforms" data-links>macOS · Windows</div>
+      </div>
+    </article>
+    <article class="app" id="kliksnap" style="--dot: #2f6fe0" data-repo="kliksnap" data-platforms="mac win linux">
+      <div class="app-head">
+        <img src="icons/kliksnap.png" alt="KlikSnap icon" width="64" height="64" loading="lazy">
+        <div><h2>KlikSnap</h2><span class="version" data-version></span></div>
+      </div>
+      <p class="tagline">A lightweight screenshot and screen recording tool. Capture, annotate, OCR.</p>
+      <ul><li>Area, window, full-screen and scrolling capture</li><li>Record MP4 or GIF with webcam bubble and clicks</li><li>Pin screenshots on screen, annotate and share</li></ul>
+      <div class="actions">
+        <a class="btn primary" data-download href="https://github.com/ashafizullah/kliksnap/releases/latest">Download KlikSnap</a>
+        <a class="btn" href="https://github.com/ashafizullah/kliksnap" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <div class="platforms" data-links>macOS · Windows · Linux</div>
+      </div>
+    </article>
+    <article class="app" id="klikreel" style="--dot: #e0a32f" data-repo="klikreel" data-platforms="mac win linux">
+      <div class="app-head">
+        <img src="icons/klikreel.png" alt="KlikReel icon" width="64" height="64" loading="lazy">
+        <div><h2>KlikReel</h2><span class="version" data-version></span></div>
+      </div>
+      <p class="tagline">Turn a prompt and your codebase into a narrated product promo video.</p>
+      <ul><li>AI researches your code and writes the storyboard</li><li>Animated scenes with AI voiceover and music</li><li>Revise by chat, export to MP4</li></ul>
+      <div class="actions">
+        <a class="btn primary" data-download href="https://github.com/ashafizullah/klikreel/releases/latest">Download KlikReel</a>
+        <a class="btn" href="https://github.com/ashafizullah/klikreel" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <div class="platforms" data-links>macOS · Windows · Linux</div>
+      </div>
+    </article>
+    <article class="app" id="klikdesign" style="--dot: #c0566e" data-repo="klikdesign" data-platforms="mac win linux">
+      <div class="app-head">
+        <img src="icons/klikdesign.png" alt="KlikDesign icon" width="64" height="64" loading="lazy">
+        <div><h2>KlikDesign</h2><span class="version" data-version></span></div>
+      </div>
+      <p class="tagline">A Canva-style poster editor with AI. Prompt a poster, then refine it on the canvas or by chat.</p>
+      <ul><li>Design from your project folder: real logo and brand colors</li><li>Canvas editor with layers, snapping and 20 fonts</li><li>Export to PNG, JPG, PDF and SVG</li></ul>
+      <div class="actions">
+        <a class="btn primary" data-download href="https://github.com/ashafizullah/klikdesign/releases/latest">Download KlikDesign</a>
+        <a class="btn" href="https://github.com/ashafizullah/klikdesign" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <div class="platforms" data-links>macOS · Windows · Linux</div>
+      </div>
+    </article>
+  </main>
 
   <section class="about">
     <div><h3>Native, not bloated</h3><p>Built with Tauri and Rust, so installers are a few megabytes and the apps start fast.</p></div>
@@ -153,38 +224,10 @@
 </div>
 
 <script>
-  const APPS = [
-    {
-      repo: "klikdb", name: "KlikDB", dot: "#1f8a65",
-      tagline: "A native database manager. PostgreSQL, MySQL, SQL Server, SQLite, Redis and MongoDB in one small app.",
-      features: ["SSH tunnels, connection groups and Navicat import", "Table browser with inline editing in one transaction", "SQL editor with autocomplete, history and safety guards"],
-      platforms: ["mac", "win"],
-    },
-    {
-      repo: "kliksnap", name: "KlikSnap", dot: "#2f6fe0",
-      tagline: "A lightweight screenshot and screen recording tool. Capture, annotate, OCR.",
-      features: ["Area, window, full-screen and scrolling capture", "Record MP4 or GIF with webcam bubble and clicks", "Pin screenshots on screen, annotate and share"],
-      platforms: ["mac", "win", "linux"],
-    },
-    {
-      repo: "klikreel", name: "KlikReel", dot: "#e0a32f",
-      tagline: "Turn a prompt and your codebase into a narrated product promo video.",
-      features: ["AI researches your code and writes the storyboard", "Animated scenes with AI voiceover and music", "Revise by chat, export to MP4"],
-      platforms: ["mac", "win", "linux"],
-    },
-    {
-      repo: "klikdesign", name: "KlikDesign", dot: "#c0566e",
-      tagline: "A Canva-style poster editor with AI. Prompt a poster, then refine it on the canvas or by chat.",
-      features: ["Design from your project folder: real logo and brand colors", "Canvas editor with layers, snapping and 20 fonts", "Export to PNG, JPG, PDF and SVG"],
-      platforms: ["mac", "win", "linux"],
-    },
-  ];
-
   const ICONS = {
     mac: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4zM13.9 5c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>',
     win: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zM11.3 3.9 21 2.5v8.6h-9.7zM3 12h7.4v7.1L3 18zM11.3 12H21v8.6l-9.7-1.4z"/></svg>',
     linux: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c-2.2 0-3.6 1.9-3.6 4.6 0 1.4.3 2.2-.6 3.6-1.2 1.8-2.9 4-2.9 6.4 0 .8.2 1.5.5 2.1-.8.4-1.9.7-1.9 1.6 0 1.2 2.6 1.2 4.2 1.7.9.3 1.6.8 2.4.8.8 0 1.3-.5 1.9-.6h1c.6.1 1.1.6 1.9.6.8 0 1.5-.5 2.4-.8 1.6-.5 4.2-.5 4.2-1.7 0-.9-1.1-1.2-1.9-1.6.3-.6.5-1.3.5-2.1 0-2.4-1.7-4.6-2.9-6.4-.9-1.4-.6-2.2-.6-3.6C15.6 3.9 14.2 2 12 2z"/></svg>',
-    gh: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>',
   };
   const LABEL = { mac: "macOS", win: "Windows", linux: "Linux" };
   // Which release asset to offer for each platform.
@@ -193,56 +236,32 @@
   const ua = navigator.userAgent;
   const os = /Mac/.test(ua) && !/iPhone|iPad/.test(ua) ? "mac" : /Windows/.test(ua) ? "win" : /Linux/.test(ua) && !/Android/.test(ua) ? "linux" : null;
 
-  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-
-  function card(app) {
-    const releases = `https://github.com/ashafizullah/${app.repo}/releases/latest`;
-    const el = document.createElement("article");
-    el.className = "app";
-    el.style.setProperty("--dot", app.dot);
-    el.innerHTML = `
-      <div class="app-head">
-        <img src="icons/${app.repo}.png" alt="" width="64" height="64">
-        <div><h2>${app.name}</h2><span class="version" data-version></span></div>
-      </div>
-      <p class="tagline">${esc(app.tagline)}</p>
-      <ul>${app.features.map(f => `<li>${esc(f)}</li>`).join("")}</ul>
-      <div class="actions">
-        <a class="btn primary" data-download href="${releases}">Download</a>
-        <a class="btn" href="https://github.com/ashafizullah/${app.repo}" rel="noopener">${ICONS.gh} Source</a>
-        <div class="platforms" data-platforms>${app.platforms.map(p => LABEL[p]).join(" · ")}</div>
-      </div>`;
-    const dl = el.querySelector("[data-download]");
-    const mine = os && app.platforms.includes(os) ? os : null;
-    if (mine) dl.innerHTML = `${ICONS[mine]} Download for ${LABEL[mine]}`;
-    return el;
+  // The cards are static HTML; this only points the buttons at the visitor's installer.
+  for (const el of document.querySelectorAll("[data-repo]")) {
+    const platforms = el.dataset.platforms.split(" ");
+    const mine = os && platforms.includes(os) ? os : null;
+    if (mine) el.querySelector("[data-download]").innerHTML = `${ICONS[mine]} Download for ${LABEL[mine]}`;
+    fillRelease(el, platforms);
   }
 
-  async function fillRelease(app, el) {
+  async function fillRelease(el, platforms) {
     try {
-      const res = await fetch(`https://api.github.com/repos/ashafizullah/${app.repo}/releases/latest`);
+      const res = await fetch(`https://api.github.com/repos/ashafizullah/${el.dataset.repo}/releases/latest`);
       if (!res.ok) return;
       const rel = await res.json();
       el.querySelector("[data-version]").textContent = rel.tag_name;
-      const links = app.platforms
+      const links = platforms
         .map(p => [p, rel.assets.find(a => ASSET[p].test(a.name))])
         .filter(([, a]) => a);
       const mine = links.find(([p]) => p === os);
       if (mine) el.querySelector("[data-download]").href = mine[1].browser_download_url;
       const others = links.filter(([p]) => p !== os);
       if (others.length) {
-        el.querySelector("[data-platforms]").innerHTML =
+        el.querySelector("[data-links]").innerHTML =
           (mine ? "Also for " : "") +
           others.map(([p, a]) => `<a href="${a.browser_download_url}">${LABEL[p]}</a>`).join(" · ");
       }
     } catch { /* offline or rate-limited: the button still points at the releases page */ }
-  }
-
-  const grid = document.getElementById("apps");
-  for (const app of APPS) {
-    const el = card(app);
-    grid.append(el);
-    fillRelease(app, el);
   }
 </script>
 </body>
