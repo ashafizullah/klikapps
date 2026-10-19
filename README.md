@@ -8,6 +8,8 @@ A single static page in `public/`. Versions and download links are read from eac
 
 ## Deploy
 
+Every push to `main` deploys through GitHub Actions (`.github/workflows/deploy.yml`, secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`). To deploy by hand:
+
 ```sh
 npx wrangler pages deploy public --project-name klikapps --branch main
 ```
