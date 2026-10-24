@@ -13,3 +13,7 @@ Every push to `main` deploys through GitHub Actions (`.github/workflows/deploy.y
 ```sh
 npx wrangler pages deploy public --project-name klikapps --branch main
 ```
+
+## License
+
+[MIT](LICENSE)
