@@ -7,8 +7,8 @@
 <meta name="description" content="Free, open-source apps: KlikDB database manager, KlikSnap screenshots, KlikReel promo videos and KlikDesign posters for macOS, Windows and Linux, plus KlikBand for Xiaomi Smart Band 9 and KlikDash for Android car headunits.">
 <link rel="canonical" href="https://klikapps.pages.dev/">
 <meta name="author" content="Adam Suchi Hafizullah">
-<meta name="theme-color" content="#f6f5f1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15130f" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Klik Apps">
 <meta property="og:url" content="https://klikapps.pages.dev/">
@@ -29,39 +29,54 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* Darkroom: warm paper by day, warm charcoal by night, tungsten amber. */
   :root {
-    --bg: #f6f5f1;
-    --surface: #ffffff;
-    --ink: #17171a;
-    --muted: #5d5d66;
-    --line: #e4e2db;
-    --chip: #efede6;
-    --accent: #1f8a65;
-    --shadow: 0 1px 2px rgba(20, 20, 30, .04), 0 8px 24px rgba(20, 20, 30, .06);
+    --bg: #f4f0e8;
+    --surface: #fbf8f2;
+    --ink: #1b1916;
+    --muted: #6f685c;
+    --line: #ddd5c6;
+    --chip: #ebe4d6;
+    --accent: #a65d0c;
+    --accent-ink: #ffffff;
+    --frame: #1d1a15;
+    --sprocket: rgba(237, 230, 216, .22);
+    --shadow: 0 1px 2px rgba(40, 30, 15, .05), 0 18px 40px -20px rgba(40, 30, 15, .22);
+    --grain: .035;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #111113;
-      --surface: #1a1a1d;
-      --ink: #f1f0ec;
-      --muted: #a2a1a8;
-      --line: #2b2b30;
-      --chip: #26262b;
-      --accent: #4cc596;
-      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+    --bg: #15130f;
+    --surface: #1d1a15;
+    --ink: #ede6d8;
+    --muted: #9a917f;
+    --line: #2e2a22;
+    --chip: #25211b;
+    --accent: #f0a83a;
+    --accent-ink: #1a1208;
+    --frame: #120f0b;
+    --sprocket: rgba(237, 230, 216, .16);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 18px 40px -18px rgba(0, 0, 0, .7);
+    --grain: .05;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #111113;
-    --surface: #1a1a1d;
-    --ink: #f1f0ec;
-    --muted: #a2a1a8;
-    --line: #2b2b30;
-    --chip: #26262b;
-    --accent: #4cc596;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
+    --bg: #15130f;
+    --surface: #1d1a15;
+    --ink: #ede6d8;
+    --muted: #9a917f;
+    --line: #2e2a22;
+    --chip: #25211b;
+    --accent: #f0a83a;
+    --accent-ink: #1a1208;
+    --frame: #120f0b;
+    --sprocket: rgba(237, 230, 216, .16);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 18px 40px -18px rgba(0, 0, 0, .7);
+    --grain: .05;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -69,51 +84,61 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font: 16px/1.6 "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font: 16px/1.6 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
+  /* Faint film grain over the page. */
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 10; opacity: var(--grain); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
   a { color: inherit; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 
   header.top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; letter-spacing: -.02em; text-decoration: none; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 600; font-size: 21px; letter-spacing: -.02em; text-decoration: none; }
+  .brand em { color: var(--accent); font-weight: 500; }
   .brand svg { width: 30px; height: 30px; }
-  .top nav { display: flex; gap: 20px; font-size: 15px; color: var(--muted); }
+  .top nav { display: flex; gap: 22px; font-family: var(--mono); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .top nav a { text-decoration: none; }
   .top nav a:hover { color: var(--ink); }
 
   .hero { padding: 56px 0 44px; }
-  .hero h1 { font-size: clamp(36px, 6.4vw, 64px); line-height: 1.05; letter-spacing: -.035em; margin: 0 0 18px; font-weight: 800; max-width: 14ch; }
-  .hero h1 .click { color: var(--accent); }
-  .hero p { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 46ch; margin: 0; }
-  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
-  .facts span { background: var(--chip); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; }
+  .hero h1 { font-family: var(--serif); font-size: clamp(40px, 7vw, 76px); line-height: 1.02; letter-spacing: -.035em; margin: 0 0 20px; font-weight: 500; font-variation-settings: "opsz" 144; max-width: 13ch; animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+  .hero h1 .click { color: var(--accent); font-style: italic; }
+  .hero p { font-size: clamp(17px, 2.2vw, 20px); color: var(--muted); max-width: 46ch; margin: 0; animation: rise .6s .08s cubic-bezier(.2,.7,.2,1) both; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; animation: rise .6s .16s cubic-bezier(.2,.7,.2,1) both; }
+  .facts span { background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; font-family: var(--mono); font-size: 12.5px; font-weight: 500; letter-spacing: .02em; }
 
   .apps { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); gap: 20px; padding-bottom: 64px; }
-  .app { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+  .app { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 38px 26px 26px; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: border-color .2s, transform .2s; animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+  .app:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); transform: translateY(-2px); }
+  /* A strip of film across the top of each card. */
+  .app::before { content: ""; position: absolute; inset: 0 0 auto; height: 14px; background: var(--frame) repeating-linear-gradient(90deg, transparent 0 9px, var(--sprocket) 9px 19px, transparent 19px 28px) 0 50% / 28px 5px repeat-x; }
+  .app:nth-child(2) { animation-delay: .05s; } .app:nth-child(3) { animation-delay: .1s; } .app:nth-child(4) { animation-delay: .15s; } .app:nth-child(5) { animation-delay: .2s; } .app:nth-child(6) { animation-delay: .25s; }
   .app-head { display: flex; gap: 16px; align-items: center; }
   .app-head img { width: 64px; height: 64px; flex: none; border-radius: 14px; }
-  .app h2 { margin: 0; font-size: 23px; letter-spacing: -.02em; line-height: 1.2; }
-  .app .version { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .app h2 { margin: 0; font-family: var(--serif); font-size: 27px; font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
+  .app .version { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 500; }
   .app .tagline { margin: 16px 0 12px; font-size: 16px; }
   .app ul { margin: 0 0 20px; padding: 0; list-style: none; color: var(--muted); font-size: 15px; }
   .app li { position: relative; padding-left: 18px; margin: 5px 0; }
   .app li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--dot); }
   .actions { margin-top: auto; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 12px; padding: 10px 16px; font-weight: 700; font-size: 15px; text-decoration: none; border: 1px solid var(--line); background: var(--surface); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding: 10px 16px; font-weight: 600; font-size: 15px; text-decoration: none; border: 1px solid var(--line); background: var(--surface); transition: border-color .15s, filter .15s; }
   .btn:hover { border-color: var(--muted); }
-  .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .btn.primary:hover { opacity: .88; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); }
+  .btn.primary:hover { filter: brightness(1.08); }
   .btn svg { width: 17px; height: 17px; flex: none; }
-  .platforms { font-size: 13px; color: var(--muted); width: 100%; margin-top: 4px; }
+  .platforms { font-family: var(--mono); font-size: 12px; color: var(--muted); width: 100%; margin-top: 4px; }
   .platforms a { color: var(--muted); }
 
   .about { border-top: 1px solid var(--line); padding: 48px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 28px; }
-  .about h3 { margin: 0 0 6px; font-size: 17px; letter-spacing: -.01em; }
+  .about h3 { margin: 0 0 6px; font-family: var(--serif); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
   .about p { margin: 0; color: var(--muted); font-size: 15px; }
 
-  .support { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 48px; }
-  .support h3 { margin: 0 0 4px; font-size: 20px; letter-spacing: -.02em; }
+  .support { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 48px; }
+  .support h3 { margin: 0 0 4px; font-family: var(--serif); font-size: 26px; font-weight: 500; letter-spacing: -.02em; }
   .support p { margin: 0; color: var(--muted); }
   .btn.trakteer { background: #c02e2e; border-color: #c02e2e; color: #fff; }
 
@@ -122,7 +147,7 @@
   @media (max-width: 560px) {
     .top nav a.hide-sm { display: none; }
     .hero { padding: 32px 0 32px; }
-    .app { padding: 20px; }
+    .app { padding: 32px 20px 20px; }
   }
 </style>
 </head>
@@ -130,8 +155,8 @@
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M11 9v14M11 17l7.5-8M13.6 14.2 20 23" stroke="var(--bg)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-      Klik Apps
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M11 9v14M11 17l7.5-8M13.6 14.2 20 23" stroke="var(--accent)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <span>Klik <em>Apps</em></span>
     </a>
     <nav>
       <a href="#apps">Apps</a>
