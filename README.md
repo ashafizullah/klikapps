@@ -17,3 +17,8 @@ npx wrangler pages deploy public --project-name klikapps --branch main
 ## License
 
 [MIT](LICENSE)
+
+<p>
+  <a href="https://github.com/ashafizullah"><img src="https://github.com/ashafizullah.png?size=64" width="32" height="32" alt="" align="left" style="border-radius:50%"></a>
+  &nbsp;Built by <a href="https://github.com/ashafizullah"><b>Adam Suchi Hafizullah</b></a>
+</p>
