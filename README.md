@@ -1,6 +1,6 @@
 # Klik Apps
 
-Landing page for Adam's free, open-source apps: [KlikDB](https://github.com/ashafizullah/klikdb), [KlikSnap](https://github.com/ashafizullah/kliksnap), [KlikReel](https://github.com/ashafizullah/klikreel), [KlikDesign](https://github.com/ashafizullah/klikdesign), [KlikBand](https://github.com/ashafizullah/klikband) for Xiaomi Smart Band 9, and [KlikDash](https://github.com/ashafizullah/klikdash) for Android car headunits.
+Landing page for Adam's free, open-source apps: [KlikDB](https://github.com/ashafizullah/klikdb), [KlikSnap](https://github.com/ashafizullah/kliksnap), [KlikReel](https://github.com/ashafizullah/klikreel), [KlikDesign](https://github.com/ashafizullah/klikdesign), [KlikPaper](https://github.com/ashafizullah/klikpaper), [KlikBand](https://github.com/ashafizullah/klikband) for Xiaomi Smart Band 9, and [KlikDash](https://github.com/ashafizullah/klikdash) for Android car headunits.
 
 Live at **https://klikapps.pages.dev**.
 
