@@ -132,6 +132,9 @@
   .btn svg { width: 17px; height: 17px; flex: none; }
   .platforms { font-family: var(--mono); font-size: 12px; color: var(--muted); width: 100%; margin-top: 4px; }
   .platforms a { color: var(--muted); }
+  /* Desktop cards: the OS buttons take the row, so Source shrinks to its icon. */
+  .has-os .src { padding: 10px 12px; }
+  .has-os .src span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
   .about { border-top: 1px solid var(--line); padding: 48px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 28px; }
   .about h3 { margin: 0 0 6px; font-family: var(--serif); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
@@ -144,6 +147,38 @@
 
   footer { padding: 0 0 40px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
   footer .legal { width: 100%; margin: 6px 0 0; font-size: 12px; opacity: .8; }
+
+  /* Changelog: a pill next to the version opens the latest release notes in a modal. */
+  .log { margin-left: 8px; padding: 1px 9px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--muted); font: 500 11.5px/1.6 var(--mono); cursor: pointer; vertical-align: 1px; transition: color .15s, border-color .15s; }
+  .log:hover { color: var(--ink); border-color: var(--muted); }
+  html:has(dialog[open]) { overflow: hidden; }
+  .log-modal { width: min(640px, calc(100vw - 32px)); max-height: min(82vh, 780px); padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow); overflow: hidden; }
+  .log-modal[open] { display: flex; flex-direction: column; animation: rise .25s cubic-bezier(.2,.7,.2,1) both; }
+  .log-modal::backdrop { background: rgba(10, 8, 5, .6); backdrop-filter: blur(3px); }
+  .log-modal::before { content: ""; flex: none; height: 14px; background: var(--frame) repeating-linear-gradient(90deg, transparent 0 9px, var(--sprocket) 9px 19px, transparent 19px 28px) 0 50% / 28px 5px repeat-x; }
+  .log-head { display: flex; align-items: center; gap: 14px; padding: 20px 22px 14px; }
+  .log-head img { width: 44px; height: 44px; border-radius: 10px; }
+  .log-head h2 { margin: 0; font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
+  .log-head .version { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 500; }
+  .log-head .close { margin-left: auto; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 9px; background: none; color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; }
+  .log-head .close:hover { color: var(--ink); border-color: var(--muted); }
+  .tabs { display: flex; gap: 4px; margin: 0 22px; border-bottom: 1px solid var(--line); }
+  .tabs button { margin-bottom: -1px; padding: 8px 12px; border: none; border-bottom: 2px solid transparent; background: none; color: var(--muted); font: 500 12.5px var(--mono); letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .log-body { flex: 1; overflow-y: auto; padding: 16px 22px 8px; font-size: 15px; }
+  .log-body h4 { margin: 18px 0 6px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .log-body h4:first-child { margin-top: 4px; }
+  .log-body p { margin: 0 0 10px; }
+  .log-body ul { margin: 0 0 12px; padding: 0; list-style: none; }
+  .log-body li { position: relative; padding-left: 18px; margin: 0 0 9px; }
+  .log-body li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .log-body code { padding: 1px 5px; border-radius: 5px; background: var(--chip); font: .86em var(--mono); }
+  .log-body hr { border: none; border-top: 1px solid var(--line); margin: 14px 0; }
+  .log-body .note { padding: 10px 12px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 14px; }
+  .log-foot { padding: 12px 22px 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12.5px; }
+  .log-foot a { color: var(--muted); }
+  .log-foot a:hover { color: var(--ink); }
 
   @media (max-width: 560px) {
     .top nav a.hide-sm { display: none; }
@@ -184,7 +219,7 @@
       <ul><li>SSH tunnels, connection groups and Navicat import</li><li>Table browser with inline editing in one transaction</li><li>SQL editor with autocomplete, history and safety guards</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikdb/releases/latest">Download KlikDB</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikdb" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikdb" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>macOS · Windows</div>
       </div>
     </article>
@@ -197,7 +232,7 @@
       <ul><li>Area, window, full-screen and scrolling capture</li><li>Record MP4 or GIF with webcam bubble and clicks</li><li>Pin screenshots on screen, annotate and share</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/kliksnap/releases/latest">Download KlikSnap</a>
-        <a class="btn" href="https://github.com/ashafizullah/kliksnap" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/kliksnap" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>macOS · Windows · Linux</div>
       </div>
     </article>
@@ -210,7 +245,7 @@
       <ul><li>AI researches your code and writes the storyboard</li><li>Animated scenes with AI voiceover and music</li><li>Revise by chat, export to MP4</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikreel/releases/latest">Download KlikReel</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikreel" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikreel" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>macOS · Windows · Linux</div>
       </div>
     </article>
@@ -223,7 +258,7 @@
       <ul><li>Design from your project folder: real logo and brand colors</li><li>Canvas editor with layers, snapping and 20 fonts</li><li>Export to PNG, JPG, PDF and SVG</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikdesign/releases/latest">Download KlikDesign</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikdesign" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikdesign" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>macOS · Windows · Linux</div>
       </div>
     </article>
@@ -236,7 +271,7 @@
       <ul><li>Merge, split, reorder, rotate; compress with a live size preview</li><li>Highlight, draw, add text in any installed font, sign, watermark</li><li>MCP server for Claude Code, Codex, Gemini CLI, Cursor and more</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikpaper/releases/latest">Download KlikPaper</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikpaper" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikpaper" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>macOS · Windows · Linux</div>
       </div>
     </article>
@@ -249,7 +284,7 @@
       <ul><li>Prayer times for 46 Indonesian cities, Hijri date and Islamic holidays</li><li>Guided post-prayer and morning &amp; evening dhikr, tasbih</li><li>Day counter, in English, Indonesian and Chinese</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikband/releases/latest">Download KlikBand</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikband" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikband" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>Xiaomi Smart Band 9 · installs via <a href="https://github.com/ashafizullah/klikband#install-on-the-band" rel="noopener">Gadgetbridge</a> on Android</div>
       </div>
     </article>
@@ -262,7 +297,7 @@
       <ul><li>Offline prayer times from GPS with a live countdown</li><li>Al-Qur'an with Mishary Alafasy recitation, downloaded per surah for offline use</li><li>TANYA voice assistant for car commands, with your own Claude or OpenAI-compatible key</li><li>Rearrangeable shortcuts, CPU temperature, power saver and in-app updates</li></ul>
       <div class="actions">
         <a class="btn primary" data-download href="https://github.com/ashafizullah/klikdash/releases/latest">Download KlikDash</a>
-        <a class="btn" href="https://github.com/ashafizullah/klikdash" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Source</a>
+        <a class="btn src" href="https://github.com/ashafizullah/klikdash" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> <span>Source</span></a>
         <div class="platforms" data-links>Android 10+ headunits, made for NWD K2401 · <a href="https://github.com/ashafizullah/klikdash/blob/main/docs/INSTALL.md" rel="noopener">install guide</a></div>
       </div>
     </article>
@@ -289,6 +324,20 @@
   </footer>
 </div>
 
+<dialog class="log-modal" id="changelog" aria-labelledby="log-title">
+  <div class="log-head">
+    <img alt="" width="44" height="44">
+    <div><h2 id="log-title"></h2><span class="version"></span></div>
+    <button class="close" type="button" aria-label="Close" data-close>&times;</button>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Language">
+    <button type="button" role="tab" data-lang="en">English</button>
+    <button type="button" role="tab" data-lang="id">Bahasa Indonesia</button>
+  </div>
+  <div class="log-body" role="tabpanel"></div>
+  <div class="log-foot"><a rel="noopener">View this release on GitHub &rarr;</a></div>
+</dialog>
+
 <script>
   const ICONS = {
     mac: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.2 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4zM13.9 5c.7-.8 1.2-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>',
@@ -298,24 +347,165 @@
   const LABEL = { mac: "macOS", win: "Windows", linux: "Linux", band: "Smart Band 9", headunit: "Android headunit" };
   // Which release asset to offer for each platform.
   const ASSET = { mac: /_universal\.dmg$/, win: /_x64-setup\.exe$/, linux: /_amd64\.AppImage$/, band: /\.rpk$/, headunit: /\.apk$/ };
+  // Other installer formats, listed under the buttons of desktop apps.
+  const MORE = [[/_x64_en-US\.msi$/, ".msi"], [/_amd64\.deb$/, ".deb"], [/\.x86_64\.rpm$/, ".rpm"]];
 
   const ua = navigator.userAgent;
   const os = /Mac/.test(ua) && !/iPhone|iPad/.test(ua) ? "mac" : /Windows/.test(ua) ? "win" : /Linux/.test(ua) && !/Android/.test(ua) ? "linux" : null;
 
-  // The cards are static HTML; this only points the buttons at the visitor's installer.
+  // The cards are static HTML. Desktop apps get one button per OS, the visitor's first;
+  // until the release is read they all point at the releases page.
   for (const el of document.querySelectorAll("[data-repo]")) {
     const platforms = el.dataset.platforms.split(" ");
-    const mine = os && platforms.includes(os) ? os : null;
-    if (mine) el.querySelector("[data-download]").innerHTML = `${ICONS[mine]} Download for ${LABEL[mine]}`;
-    fillRelease(el, platforms);
+    if ("direct" in el.dataset) fillRelease(el, platforms);
+    else {
+      osButtons(el, platforms);
+      fillDesktop(el, platforms);
+    }
+  }
+
+  function osButtons(el, platforms) {
+    const main = el.querySelector("[data-download]");
+    const order = os && platforms.includes(os) ? [os, ...platforms.filter(p => p !== os)] : platforms;
+    el.classList.add("has-os");
+    main.replaceWith(...order.map(p => {
+      const a = document.createElement("a");
+      a.className = p === os ? "btn primary" : "btn";
+      a.href = main.href;
+      a.dataset.os = p;
+      a.innerHTML = `${ICONS[p]} ${LABEL[p]}`;
+      a.setAttribute("aria-label", `Download ${el.querySelector("h2").textContent} for ${LABEL[p]}`);
+      return a;
+    }));
+    el.querySelector("[data-links]").textContent = "";
+  }
+
+  async function latest(el) {
+    const res = await fetch(`https://api.github.com/repos/ashafizullah/${el.dataset.repo}/releases/latest`);
+    if (!res.ok) return null;
+    const rel = await res.json();
+    const version = el.querySelector("[data-version]");
+    version.textContent = rel.tag_name;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "log";
+    btn.textContent = "Changelog";
+    btn.setAttribute("aria-label", `${el.querySelector("h2").textContent} ${rel.tag_name} changelog`);
+    btn.addEventListener("click", () => openLog(el, rel));
+    version.after(btn);
+    return rel;
+  }
+
+  // Changelog modal. Notes come from the release's CHANGELOG.md / CHANGELOG.id.md section,
+  // or from the release text (Indonesian after a "Bahasa Indonesia" heading) for apps without one.
+  const dialog = document.getElementById("changelog");
+  const logBody = dialog.querySelector(".log-body");
+  const notes = new Map();
+  let tab = /^id\b/i.test(navigator.language) ? "id" : "en";
+  let shown = null;
+
+  dialog.addEventListener("click", e => { if (e.target === dialog || e.target.closest("[data-close]")) dialog.close(); });
+  for (const b of dialog.querySelectorAll("[data-lang]")) b.addEventListener("click", () => { tab = b.dataset.lang; renderLog(); });
+  dialog.querySelector(".tabs").addEventListener("keydown", e => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    tab = tab === "en" ? "id" : "en";
+    renderLog();
+    dialog.querySelector(`[data-lang="${tab}"]`).focus();
+  });
+
+  async function openLog(el, rel) {
+    const repo = el.dataset.repo;
+    dialog.querySelector("img").src = el.querySelector(".app-head img").src;
+    dialog.querySelector("h2").textContent = el.querySelector("h2").textContent;
+    dialog.querySelector(".version").textContent = rel.tag_name;
+    dialog.querySelector(".log-foot a").href = rel.html_url;
+    shown = { repo, log: null };
+    renderLog();
+    dialog.showModal();
+    if (!notes.has(repo)) notes.set(repo, loadNotes(repo, rel));
+    const log = await notes.get(repo);
+    if (shown.repo === repo) { shown.log = log; renderLog(); }
+  }
+
+  function renderLog() {
+    for (const b of dialog.querySelectorAll("[data-lang]")) b.setAttribute("aria-selected", b.dataset.lang === tab);
+    const log = shown?.log;
+    logBody.scrollTop = 0;
+    if (!log) { logBody.innerHTML = '<p class="note">Loading…</p>'; return; }
+    const text = log[tab] || log.en;
+    logBody.lang = log[tab] ? tab : "en";
+    logBody.innerHTML =
+      (tab === "id" && !log.id && log.en ? '<p class="note" lang="id">Catatan versi ini belum tersedia dalam Bahasa Indonesia. Berikut versi bahasa Inggrisnya.</p>' : "") +
+      (text ? markdown(text, shown.repo) : '<p class="note">No notes for this release.</p>');
+  }
+
+  async function loadNotes(repo, rel) {
+    const file = name => fetch(`https://raw.githubusercontent.com/ashafizullah/${repo}/${rel.tag_name}/${name}`)
+      .then(r => (r.ok ? r.text() : "")).catch(() => "");
+    const version = rel.tag_name.replace(/^v/, "");
+    const [en, id] = await Promise.all([file("CHANGELOG.md"), file("CHANGELOG.id.md")]);
+    const fromFile = { en: section(en, version), id: section(id, version) };
+    if (fromFile.en) return fromFile;
+    const [bodyEn, bodyId] = (rel.body || "").replace(/\r\n/g, "\n").split(/\n-{3,}\s*\n\s*\*\*Bahasa Indonesia:?\*\*:?\s*\n/i);
+    return { en: bodyEn.trim(), id: bodyId?.trim() || "" };
+  }
+
+  // The lines under "## <version>" up to the next "## " heading.
+  function section(md, version) {
+    const lines = md.split("\n");
+    const start = lines.findIndex(l => new RegExp(`^## \\[?v?${version.replace(/\./g, "\\.")}\\b`).test(l));
+    if (start < 0) return "";
+    const end = lines.findIndex((l, i) => i > start && /^## /.test(l));
+    return lines.slice(start + 1, end < 0 ? undefined : end).join("\n").trim();
+  }
+
+  // Just enough Markdown for release notes: headings, lists, paragraphs, bold, code and links.
+  function markdown(md, repo) {
+    const esc = t => t.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+    const inline = t => esc(t)
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, url) =>
+        `<a href="${/^https?:/.test(url) ? url : `https://github.com/ashafizullah/${repo}/blob/main/${url}`}" rel="noopener">${label}</a>`);
+    let html = "", list = false;
+    for (const line of md.split("\n").map(l => l.trimEnd())) {
+      const item = line.match(/^\s*[-*] (.*)/);
+      if (item) { html += (list ? "" : "<ul>") + `<li>${inline(item[1])}</li>`; list = true; continue; }
+      if (list && /^\s{2,}\S/.test(line)) { html = html.replace(/<\/li>$/, ` ${inline(line.trim())}</li>`); continue; }
+      if (list) { html += "</ul>"; list = false; }
+      const head = line.match(/^#{2,6} (.*)/);
+      if (head) html += `<h4>${inline(head[1])}</h4>`;
+      else if (/^-{3,}$/.test(line)) html += "<hr>";
+      else if (line) html += `<p>${inline(line)}</p>`;
+    }
+    return html + (list ? "</ul>" : "");
+  }
+
+  async function fillDesktop(el, platforms) {
+    try {
+      const rel = await latest(el);
+      if (!rel) return;
+      for (const p of platforms) {
+        const asset = rel.assets.find(a => ASSET[p].test(a.name));
+        const btn = el.querySelector(`[data-os="${p}"]`);
+        if (!asset) continue;
+        btn.href = asset.browser_download_url;
+        btn.title = `${asset.name} · ${Math.max(1, Math.round(asset.size / 1048576))} MB`;
+      }
+      const more = MORE
+        .map(([re, label]) => [label, rel.assets.find(a => re.test(a.name))])
+        .filter(([, a]) => a)
+        .map(([label, a]) => `<a href="${a.browser_download_url}" title="${a.name}">${label}</a>`);
+      const universal = platforms.includes("mac") ? "macOS build runs on Apple Silicon and Intel" : "";
+      el.querySelector("[data-links]").innerHTML =
+        [universal, more.length ? `also as ${more.join(" · ")}` : ""].filter(Boolean).join(" · ");
+    } catch { /* offline or rate-limited: the buttons still point at the releases page */ }
   }
 
   async function fillRelease(el, platforms) {
     try {
-      const res = await fetch(`https://api.github.com/repos/ashafizullah/${el.dataset.repo}/releases/latest`);
-      if (!res.ok) return;
-      const rel = await res.json();
-      el.querySelector("[data-version]").textContent = rel.tag_name;
+      const rel = await latest(el);
+      if (!rel) return;
       const links = platforms
         .map(p => [p, rel.assets.find(a => ASSET[p].test(a.name))])
         .filter(([, a]) => a);
