@@ -355,8 +355,11 @@
 
   // The cards are static HTML. Desktop apps get one button per OS, the visitor's first;
   // until the release is read they all point at the releases page.
+  const releases = new Map();
   for (const el of document.querySelectorAll("[data-repo]")) {
     const platforms = el.dataset.platforms.split(" ");
+    releases.set(el.dataset.repo, latest(el));
+    logButton(el);
     if ("direct" in el.dataset) fillRelease(el, platforms);
     else {
       osButtons(el, platforms);
@@ -380,20 +383,36 @@
     el.querySelector("[data-links]").textContent = "";
   }
 
+  // The latest release, kept for 15 minutes so reloads don't use up GitHub's limit of
+  // 60 requests an hour per visitor; an older copy stands in when GitHub says no.
   async function latest(el) {
-    const res = await fetch(`https://api.github.com/repos/ashafizullah/${el.dataset.repo}/releases/latest`);
-    if (!res.ok) return null;
-    const rel = await res.json();
-    const version = el.querySelector("[data-version]");
-    version.textContent = rel.tag_name;
+    const repo = el.dataset.repo, key = `release:${repo}`;
+    let kept = null, rel = null;
+    try { kept = JSON.parse(localStorage.getItem(key)); } catch {}
+    if (kept && Date.now() - kept.at < 15 * 60e3) rel = kept.rel;
+    else {
+      try {
+        const res = await fetch(`https://api.github.com/repos/ashafizullah/${repo}/releases/latest`);
+        if (res.ok) {
+          const r = await res.json();
+          rel = { tag_name: r.tag_name, html_url: r.html_url, body: r.body, assets: r.assets.map(({ name, size, browser_download_url }) => ({ name, size, browser_download_url })) };
+          try { localStorage.setItem(key, JSON.stringify({ at: Date.now(), rel })); } catch {}
+        }
+      } catch {}
+      rel ??= kept?.rel ?? null;
+    }
+    if (rel) el.querySelector("[data-version]").textContent = rel.tag_name;
+    return rel;
+  }
+
+  function logButton(el) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "log";
     btn.textContent = "Changelog";
-    btn.setAttribute("aria-label", `${el.querySelector("h2").textContent} ${rel.tag_name} changelog`);
-    btn.addEventListener("click", () => openLog(el, rel));
-    version.after(btn);
-    return rel;
+    btn.setAttribute("aria-label", `${el.querySelector("h2").textContent} changelog`);
+    btn.addEventListener("click", () => openLog(el));
+    el.querySelector("[data-version]").after(btn);
   }
 
   // Changelog modal. Notes come from the release's CHANGELOG.md / CHANGELOG.id.md section,
@@ -413,18 +432,24 @@
     dialog.querySelector(`[data-lang="${tab}"]`).focus();
   });
 
-  async function openLog(el, rel) {
+  async function openLog(el) {
     const repo = el.dataset.repo;
+    const version = dialog.querySelector(".version");
+    const link = dialog.querySelector(".log-foot a");
     dialog.querySelector("img").src = el.querySelector(".app-head img").src;
     dialog.querySelector("h2").textContent = el.querySelector("h2").textContent;
-    dialog.querySelector(".version").textContent = rel.tag_name;
-    dialog.querySelector(".log-foot a").href = rel.html_url;
+    version.textContent = el.querySelector("[data-version]").textContent;
+    link.href = `https://github.com/ashafizullah/${repo}/releases/latest`;
     shown = { repo, log: null };
     renderLog();
     dialog.showModal();
-    if (!notes.has(repo)) notes.set(repo, loadNotes(repo, rel));
+    if (!notes.has(repo)) notes.set(repo, releases.get(repo).then(rel => loadNotes(repo, rel)));
     const log = await notes.get(repo);
-    if (shown.repo === repo) { shown.log = log; renderLog(); }
+    if (shown.repo !== repo) return;
+    shown.log = log;
+    version.textContent = log.version;
+    if (log.url) link.href = log.url;
+    renderLog();
   }
 
   function renderLog() {
@@ -436,22 +461,24 @@
     logBody.lang = log[tab] ? tab : "en";
     logBody.innerHTML =
       (tab === "id" && !log.id && log.en ? '<p class="note" lang="id">Catatan versi ini belum tersedia dalam Bahasa Indonesia. Berikut versi bahasa Inggrisnya.</p>' : "") +
-      (text ? markdown(text, shown.repo) : '<p class="note">No notes for this release.</p>');
+      (text ? markdown(text, shown.repo) : '<p class="note">Couldn\'t load the notes right now. They are on GitHub, linked below.</p>');
   }
 
+  // Without the release (GitHub's limit reached), the newest version in the changelog on main.
   async function loadNotes(repo, rel) {
-    const file = name => fetch(`https://raw.githubusercontent.com/ashafizullah/${repo}/${rel.tag_name}/${name}`)
+    const file = name => fetch(`https://raw.githubusercontent.com/ashafizullah/${repo}/${rel ? rel.tag_name : "main"}/${name}`)
       .then(r => (r.ok ? r.text() : "")).catch(() => "");
-    const version = rel.tag_name.replace(/^v/, "");
     const [en, id] = await Promise.all([file("CHANGELOG.md"), file("CHANGELOG.id.md")]);
-    const fromFile = { en: section(en, version), id: section(id, version) };
-    if (fromFile.en) return fromFile;
+    const version = rel ? rel.tag_name.replace(/^v/, "") : en.match(/^## \[?v?(\d[^\s\]]*)/m)?.[1];
+    const log = { version: rel?.tag_name ?? (version ? `v${version}` : ""), url: rel?.html_url, en: section(en, version), id: section(id, version) };
+    if (log.en || !rel) return log;
     const [bodyEn, bodyId] = (rel.body || "").replace(/\r\n/g, "\n").split(/\n-{3,}\s*\n\s*\*\*Bahasa Indonesia:?\*\*:?\s*\n/i);
-    return { en: bodyEn.trim(), id: bodyId?.trim() || "" };
+    return { ...log, en: bodyEn.trim(), id: bodyId?.trim() || "" };
   }
 
   // The lines under "## <version>" up to the next "## " heading.
   function section(md, version) {
+    if (!version) return "";
     const lines = md.split("\n");
     const start = lines.findIndex(l => new RegExp(`^## \\[?v?${version.replace(/\./g, "\\.")}\\b`).test(l));
     if (start < 0) return "";
@@ -483,7 +510,7 @@
 
   async function fillDesktop(el, platforms) {
     try {
-      const rel = await latest(el);
+      const rel = await releases.get(el.dataset.repo);
       if (!rel) return;
       for (const p of platforms) {
         const asset = rel.assets.find(a => ASSET[p].test(a.name));
@@ -504,7 +531,7 @@
 
   async function fillRelease(el, platforms) {
     try {
-      const rel = await latest(el);
+      const rel = await releases.get(el.dataset.repo);
       if (!rel) return;
       const links = platforms
         .map(p => [p, rel.assets.find(a => ASSET[p].test(a.name))])
