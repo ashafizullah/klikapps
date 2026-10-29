@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sambungkan KlikBeam</title>
+<meta name="description" content="Buka dari QR di headunit KlikDash: aplikasi KlikBeam di HP langsung terisi alamat dan kode pairing headunit.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15130f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/klikbeam.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Darkroom, sama dengan halaman utama Klik Apps. */
+  :root {
+    --bg: #f4f0e8; --surface: #fbf8f2; --ink: #1b1916; --muted: #6f685c; --line: #ddd5c6;
+    --accent: #a65d0c; --on-accent: #fbf8f2;
+    --serif: "Fraunces", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15130f; --surface: #1d1a15; --ink: #ede6d8; --muted: #9a917f; --line: #2e2a22; --accent: #f0a83a;
+      --on-accent: #15130f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15130f; --surface: #1d1a15; --ink: #ede6d8; --muted: #9a917f; --line: #2e2a22; --accent: #f0a83a;
+    --on-accent: #15130f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--sans); }
+  main { max-width: 560px; margin: 0 auto; padding: 40px 16px 56px; }
+  .eyebrow { font: 500 12px var(--mono); letter-spacing: .2em; color: var(--accent); text-transform: uppercase; }
+  h1 { font: 600 34px/1.15 var(--serif); margin: 8px 0 12px; }
+  p { color: var(--muted); margin: 0 0 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin: 24px 0; }
+  .label { font: 500 11px var(--mono); letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+  .code { font: 600 48px/1.1 var(--mono); letter-spacing: .06em; color: var(--accent); margin: 6px 0 16px; }
+  .addr { font: 500 18px/1.5 var(--mono); word-break: break-all; white-space: pre-line; }
+  .open { display: block; width: 100%; text-align: center; padding: 16px; border-radius: 12px; border: 0;
+    background: var(--accent); color: var(--on-accent); font: 600 18px var(--sans); text-decoration: none; }
+  .stores { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+  .stores a { flex: 1 1 200px; text-align: center; padding: 12px; border-radius: 10px; border: 1px solid var(--line);
+    color: var(--ink); text-decoration: none; font-weight: 500; }
+  .hint { font-size: 14px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">KlikBeam · KlikDash</div>
+  <h1 id="title">Sambungkan KlikBeam</h1>
+
+  <div id="paired" hidden>
+    <p>Ketuk tombol di bawah: aplikasi KlikBeam terbuka dengan headunit dan kode ini sudah terisi, lalu tekan
+      <strong>Mulai Mirror</strong>.</p>
+    <a class="open" id="open" href="#">Buka di KlikBeam</a>
+    <div class="card">
+      <div class="label">Kode pairing</div>
+      <div class="code" id="code"></div>
+      <div class="label" id="addrLabel">Alamat headunit</div>
+      <div class="addr" id="addr"></div>
+    </div>
+    <p class="hint" id="desktop" hidden>Halaman ini untuk dibuka di HP: pindai QR di layar headunit dengan kamera HP.</p>
+  </div>
+
+  <div id="empty" hidden>
+    <p>Buka halaman ini dengan memindai QR di headunit: KlikDash › ⚙ › KLIKBEAM, atau layar penerima KlikBeam.</p>
+  </div>
+
+  <p class="hint">Belum punya aplikasi KlikBeam? Pasang dulu, lalu pindai QR-nya lagi.</p>
+  <div class="stores">
+    <a href="https://apps.apple.com/id/app/klikbeam/id6826742960">iPhone &amp; iPad · App Store</a>
+    <a href="https://play.google.com/store/apps/details?id=com.ashafizullah.klikbeam">Android · Play Store</a>
+  </div>
+</main>
+<script>
+  // Isi QR di headunit: #c=<kode 6 digit>&h=<IP,IP>&n=<nama layanan Bonjour>. Setelah # tidak dikirim ke server.
+  (function () {
+    var q = new URLSearchParams(location.hash.slice(1));
+    var code = (q.get('c') || '').replace(/\D/g, '');
+    var hosts = (q.get('h') || '').split(',').filter(function (h) { return /^[0-9a-fA-F.:]+$/.test(h); });
+    var name = (q.get('n') || '').slice(0, 63);
+    if (code.length !== 6) { document.getElementById('empty').hidden = false; return; }
+
+    document.getElementById('paired').hidden = false;
+    document.getElementById('code').textContent = code.slice(0, 3) + ' ' + code.slice(3);
+    if (hosts.length) document.getElementById('addr').textContent = hosts.join('\n');
+    else document.getElementById('addrLabel').hidden = true;
+
+    var params = 'c=' + code + (hosts.length ? '&h=' + encodeURIComponent(hosts.join(',')) : '') +
+      (name ? '&n=' + encodeURIComponent(name) : '');
+    var ua = navigator.userAgent;
+    var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var android = /Android/.test(ua);
+    var link = document.getElementById('open');
+    if (android) {
+      // Chrome: buka aplikasi bila terpasang, kalau tidak ke Play Store.
+      link.href = 'intent://pair?' + params + '#Intent;scheme=klikbeam;package=com.ashafizullah.klikbeam;' +
+        'S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=com.ashafizullah.klikbeam') + ';end';
+      location.href = link.href; // dicoba langsung; tombolnya tetap ada bila browser menahannya
+    } else if (ios) {
+      link.href = 'klikbeam://pair?' + params; // tanpa dibuka otomatis: Safari memberi galat bila aplikasi belum terpasang
+    } else {
+      link.hidden = true;
+      document.getElementById('desktop').hidden = false;
+    }
+  })();
+</script>
+</body>
+</html>
