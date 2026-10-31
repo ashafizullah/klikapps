@@ -1,2 +1,6 @@
 # KlikDash: skrip Windows untuk membuka port ADB 5555 dari laptop (headunit Android 10 ke bawah).
 /adb  https://github.com/ashafizullah/klikdash/releases/latest/download/buka-adb-klikdash.bat  302
+
+# Kebijakan privasi KlikBeam pindah ke server KlikBeam (ikut Play Console dan App Store Connect).
+/klikbeam/privacy       https://klikbeam.ashafizullah.com/privacy  301
+/klikbeam/privacy.html  https://klikbeam.ashafizullah.com/privacy  301
