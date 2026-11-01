@@ -4,3 +4,8 @@
 # Kebijakan privasi KlikBeam pindah ke server KlikBeam (ikut Play Console dan App Store Connect).
 /klikbeam/privacy       https://klikbeam.ashafizullah.com/privacy  301
 /klikbeam/privacy.html  https://klikbeam.ashafizullah.com/privacy  301
+
+# Halaman bantuan KlikBeam pindah ke situs KlikBeam sendiri.
+/klikbeam               https://klikbeam.ashafizullah.com/  301
+/klikbeam/              https://klikbeam.ashafizullah.com/  301
+/klikbeam/index.html    https://klikbeam.ashafizullah.com/  301
