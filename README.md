@@ -2,7 +2,7 @@
 
 Landing page for Adam's free, open-source apps: [KlikDB](https://github.com/ashafizullah/klikdb), [KlikSnap](https://github.com/ashafizullah/kliksnap), [KlikReel](https://github.com/ashafizullah/klikreel), [KlikDesign](https://github.com/ashafizullah/klikdesign), [KlikPaper](https://github.com/ashafizullah/klikpaper), [KlikVibe](https://github.com/ashafizullah/klikvibe), [KlikBand](https://github.com/ashafizullah/klikband) for Xiaomi Smart Band 9, and [KlikDash](https://github.com/ashafizullah/klikdash) for Android car headunits.
 
-Live at **https://klikapps.pages.dev**.
+Live at **https://klikapps.ashafizullah.com**.
 
 A single static page in `public/`. Versions and download links are read from each repo's latest GitHub release in the browser, so a new app release needs no change here.
 
